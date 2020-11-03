@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="article"
+            type="com.sample.nytimesarticles.model.Article"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingLeft="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
+        style="@style/BackgroundSelectableStyle">
+
+        <ImageView
+            android:id="@+id/quality_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:articleImage="@{article.thumbnail}"
+            app:layout_constraintBottom_toBottomOf="@+id/article_author"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/article_title"
+            tools:srcCompat="@android:drawable/ic_menu_gallery" />
+
+        <TextView
+            android:id="@+id/article_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-black"
+            android:maxLines="2"
+            android:text="@{article.title}"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/quality_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Long Title of Article to be shown in 2 lines max, Long Title of Article to be shown in 2 lines max" />
+
+        <TextView
+            android:id="@+id/article_author"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{article.author}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/publish_date"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/article_title"
+            app:layout_constraintTop_toBottomOf="@+id/article_title"
+            tools:text="By Author with big name to be shown in max 2 lines and trim after that" />
+
+        <TextView
+            android:id="@+id/publish_date"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/article_title"
+            app:layout_constraintStart_toEndOf="@+id/article_author"
+            app:layout_constraintTop_toBottomOf="@+id/article_title"
+            tools:text="25 Oct 2020"
+            android:text="@{article.publishedDate}"
+            android:gravity="center_vertical"
+            app:drawableStartCompat="@android:drawable/ic_menu_my_calendar" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

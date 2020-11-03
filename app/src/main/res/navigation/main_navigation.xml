@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/title_destination">
+
+    <fragment
+        android:id="@+id/title_destination"
+        android:name="com.sample.nytimesarticles.ui.screens.title.TitleFragment"
+        android:label="title_fragment"
+        tools:layout="@layout/fragment_title">
+        <action
+            android:id="@+id/action_title_to_articles"
+            app:destination="@id/articles_destination"
+            app:launchSingleTop="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/articles_destination"
+        android:name="com.sample.nytimesarticles.ui.screens.articles.ArticlesFragment"
+        android:label="articles_fragment"
+        tools:layout="@layout/fragment_articles">
+
+        <action
+            android:id="@+id/action_articles_to_details"
+            app:destination="@id/detail_destination"
+            app:launchSingleTop="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detail_destination"
+        android:name="com.sample.nytimesarticles.ui.screens.detail.DetailFragment"
+        android:label="detail_fragment"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detail_to_articles"
+            app:destination="@+id/articles_destination"
+            />
+        <argument
+            android:name="article"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+</navigation>
