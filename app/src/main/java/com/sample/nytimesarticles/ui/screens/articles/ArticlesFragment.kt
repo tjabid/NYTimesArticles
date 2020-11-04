@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nytimesarticles.R
@@ -17,12 +18,16 @@ import com.sample.nytimesarticles.model.*
 import com.sample.nytimesarticles.model.Duration.Companion.ONE_DAY
 import com.sample.nytimesarticles.model.Duration.Companion.SEVEN_DAYS
 import com.sample.nytimesarticles.model.Duration.Companion.THIRTY_DAYS
+import com.sample.nytimesarticles.repository.Repository
 import com.sample.nytimesarticles.ui.adapter.ArticleAdapter
 import com.sample.nytimesarticles.ui.adapter.DaysFilterAdapter
+import com.sample.nytimesarticles.ui.screens.detail.DetailViewModel
+import com.sample.nytimesarticles.ui.screens.detail.DetailViewModelFactory
 
 class ArticlesFragment : Fragment() {
 
-    private val viewModel: ArticlesViewModel by viewModels()
+    private lateinit var viewModel: ArticlesViewModel
+    private lateinit var viewModelFactory: ArticlesViewModelFactory
     private lateinit var adapter: ArticleAdapter
     private lateinit var binding: FragmentArticlesBinding
 
@@ -33,6 +38,10 @@ class ArticlesFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_articles, container, false)
+
+
+        viewModelFactory = ArticlesViewModelFactory(Repository())
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ArticlesViewModel::class.java)
 
         val adapterDuration = DaysFilterAdapter(
             listOf(ONE_DAY, SEVEN_DAYS, THIRTY_DAYS),
@@ -49,7 +58,7 @@ class ArticlesFragment : Fragment() {
         binding.rvDays.adapter = adapterDuration
 
         binding.viewErrorLoading.connectionRetryBtn.setOnClickListener {
-            viewModel.setDuration(adapterDuration.getSelected())
+            viewModel.retry(adapterDuration.getSelected())
             binding.viewErrorLoading.root.visibility = GONE
         }
 

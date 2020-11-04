@@ -2,9 +2,6 @@ package com.sample.nytimesarticles.network.mapper
 
 import com.sample.nytimesarticles.model.Article
 import com.sample.nytimesarticles.model.MostPopularArticles
-import com.sample.nytimesarticles.network.retrofit.ApiEmptyResponse
-import com.sample.nytimesarticles.network.retrofit.ApiErrorResponse
-import com.sample.nytimesarticles.network.retrofit.ApiSuccessResponse
 import retrofit2.Response
 import java.lang.Exception
 import java.text.SimpleDateFormat

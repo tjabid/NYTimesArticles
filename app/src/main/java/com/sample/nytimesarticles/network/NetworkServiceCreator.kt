@@ -1,8 +1,6 @@
 package com.sample.nytimesarticles.network
 
-import com.sample.nytimesarticles.network.retrofit.LiveDataCallAdapterFactory
 import com.sample.nytimesarticles.network.service.NetworkService
-import com.sample.nytimesarticles.util.Urls
 import com.sample.nytimesarticles.util.Urls.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -22,7 +20,6 @@ object NetworkServiceCreator {
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
     }
 }

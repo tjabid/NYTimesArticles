@@ -13,15 +13,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-/**
- *
- */
+class Repository {
 
-object Repository {
-
-    private val webservice: NetworkService by lazy {
-        NetworkServiceCreator.networkService
-    }
+    private val webservice: NetworkService = NetworkServiceCreator.networkService
 
     var job: CompletableJob? = null
 
@@ -33,6 +27,9 @@ object Repository {
      */
     fun getMostViewedArticles(duration: String): MutableLiveData<MostPopularArticles> {
 
+        if (job != null) {
+            job?.cancel()
+        }
         job = Job()
 
         val data = MutableLiveData<MostPopularArticles>()
