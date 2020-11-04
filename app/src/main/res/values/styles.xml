@@ -22,4 +22,14 @@
         <item name="android:focusable">true</item>
     </style>
 
+    <style name="DurationOverlay">
+        <item name="android:background">@drawable/bg_stroke_round</item>
+        <item name="android:textColor">@color/white_text_color</item>
+    </style>
+
+    <style name="DurationSelectedOverlay">
+        <item name="android:background">@drawable/bg_round</item>
+        <item name="android:textColor">@color/black_text_color</item>
+    </style>
+
 </resources>

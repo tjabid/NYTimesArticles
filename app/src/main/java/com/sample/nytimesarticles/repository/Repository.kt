@@ -1,8 +1,7 @@
 package com.sample.nytimesarticles.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sample.nytimesarticles.model.Article
+import com.sample.nytimesarticles.model.MostPopularArticles
 import com.sample.nytimesarticles.network.NetworkServiceCreator
 import com.sample.nytimesarticles.network.mapper.ArticleMapper
 import com.sample.nytimesarticles.network.mapper.ArticlesResponse
@@ -26,16 +25,17 @@ object Repository {
 
     var job: CompletableJob? = null
 
+
     /**
      * Fetch most viewed articles from NY Times with unique key registered api key
      * @param duration the time limit of articles as String
      * @return a list of articles that match our duration
      */
-    fun getMostViewedArticles(duration: String): LiveData<List<Article>> {
+    fun getMostViewedArticles(duration: String): MutableLiveData<MostPopularArticles> {
 
         job = Job()
 
-        val data = MutableLiveData<List<Article>>()
+        val data = MutableLiveData<MostPopularArticles>()
 
         webservice.getMostViewedArticles(duration, API_KEY)
             .enqueue(object : Callback<ArticlesResponse> {
@@ -43,15 +43,15 @@ object Repository {
                 call: Call<ArticlesResponse>,
                 response: Response<ArticlesResponse>
             ) {
-                if (response.code() == 200) {
-                    response.body()?.let {
-                        data.value = ArticleMapper().map(it)
-                    } //?: error
-                }
+                data.value = ArticleMapper().map(response, null)
                 job?.complete()
             }
 
             override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) {
+                data.value = ArticleMapper().map(
+                    null,
+                    "Cannot load articles, please check your internet connection and retry."
+                )
                 job?.complete()
             }
         })

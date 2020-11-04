@@ -13,7 +13,8 @@
         <action
             android:id="@+id/action_title_to_articles"
             app:destination="@id/articles_destination"
-            app:launchSingleTop="true"/>
+            app:popUpTo="@id/title_destination"
+            app:popUpToInclusive="true"/>
     </fragment>
 
     <fragment
@@ -21,7 +22,6 @@
         android:name="com.sample.nytimesarticles.ui.screens.articles.ArticlesFragment"
         android:label="articles_fragment"
         tools:layout="@layout/fragment_articles">
-
         <action
             android:id="@+id/action_articles_to_details"
             app:destination="@id/detail_destination"
@@ -33,13 +33,9 @@
         android:name="com.sample.nytimesarticles.ui.screens.detail.DetailFragment"
         android:label="detail_fragment"
         tools:layout="@layout/fragment_detail">
-        <action
-            android:id="@+id/action_detail_to_articles"
-            app:destination="@+id/articles_destination"
-            />
         <argument
-            android:name="article"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="articleUrl"
+            android:defaultValue="&amp;"
+            app:argType="string" />
     </fragment>
 </navigation>

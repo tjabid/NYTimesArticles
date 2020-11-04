@@ -3,4 +3,10 @@
     <string name="title_item_detail">Item Detail</string>
     <string name="title_text">NY Times</string>
     <string name="sub_title">Most Popular Articles</string>
+    <string name="exception_load_error">Cannot load articles, please check your internet connection and retry.</string>
+    <string name="retry">Retry</string>
+    <string name="filter">Filter</string>
+    <string name="thirty_days">30 days</string>
+    <string name="seven_days">7 days</string>
+    <string name="one_day">1 day</string>
 </resources>

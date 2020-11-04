@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import com.sample.nytimesarticles.R
 import com.sample.nytimesarticles.databinding.FragmentDetailBinding
 
@@ -15,19 +15,8 @@ import com.sample.nytimesarticles.databinding.FragmentDetailBinding
  */
 class DetailFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-//        arguments?.let {
-//            if (it.containsKey(ARG_ITEM_ID)) {
-//                // Load the dummy content specified by the fragment
-//                // arguments. In a real-world scenario, use a Loader
-//                // to load content from a content provider.
-//                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-//                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = item?.content
-//            }
-//        }
-    }
+    private lateinit var viewModel: DetailViewModel
+    private lateinit var viewModelFactory: DetailViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,17 +25,17 @@ class DetailFragment : Fragment() {
         val binding: FragmentDetailBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_detail, container, false)
 
-        binding.itemDetail.setOnClickListener {
-            findNavController().navigate(DetailFragmentDirections.actionDetailToArticles())
+        arguments?.let {
+            val url = DetailFragmentArgs.fromBundle(it).articleUrl
+
+            viewModelFactory = DetailViewModelFactory(url)
+            viewModel = ViewModelProvider(this, viewModelFactory)
+                .get(DetailViewModel::class.java)
+
+            binding.itemDetail.loadUrl(viewModel.articleUrl)
         }
+
         return binding.root
     }
 
-    companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
-        const val ARG_ITEM_ID = "item_id"
-    }
 }

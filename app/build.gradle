@@ -39,7 +39,7 @@ android {
 
 dependencies {
     def lifecycle_version = "2.2.0"
-    def retrofit = "2.5.0"
+    def retrofit = "2.9.0"
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -58,7 +58,6 @@ dependencies {
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
     // Navigation
@@ -72,6 +71,25 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
 
-    // GLide
+    // Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
+
+    // Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0"
+    implementation "androidx.test.espresso:espresso-idling-resource:3.3.0"
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+
+    // Shimmer for loading state
+    implementation 'com.facebook.shimmer:shimmer:0.4.0@aar'
+
+    // Timber for logging
+    implementation 'com.github.ajalt:timberkt:1.5.1'
+
+    // Mockito
+    testImplementation "org.mockito:mockito-core:2.25.0"
+    testImplementation "io.mockk:mockk:1.9.1"
+    testImplementation "androidx.test:core:1.3.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

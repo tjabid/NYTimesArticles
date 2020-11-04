@@ -9,13 +9,10 @@ import com.sample.nytimesarticles.databinding.CellArticleBinding
 import com.sample.nytimesarticles.model.Article
 import java.lang.ref.WeakReference
 
-/**
- *
- */
-internal class ArticleAdapter(
+
+class ArticleAdapter(
     private var listener: OnItemClickListener?
 ): ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(ArticleDiffCallback()) {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         return ArticleViewHolder.from(parent, listener)

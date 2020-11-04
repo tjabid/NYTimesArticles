@@ -3,54 +3,82 @@ package com.sample.nytimesarticles.ui.screens.articles
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nytimesarticles.R
 import com.sample.nytimesarticles.databinding.FragmentArticlesBinding
-import com.sample.nytimesarticles.model.Article
+import com.sample.nytimesarticles.model.*
+import com.sample.nytimesarticles.model.Duration.Companion.ONE_DAY
+import com.sample.nytimesarticles.model.Duration.Companion.SEVEN_DAYS
+import com.sample.nytimesarticles.model.Duration.Companion.THIRTY_DAYS
 import com.sample.nytimesarticles.ui.adapter.ArticleAdapter
+import com.sample.nytimesarticles.ui.adapter.DaysFilterAdapter
 
 class ArticlesFragment : Fragment() {
 
     private val viewModel: ArticlesViewModel by viewModels()
     private lateinit var adapter: ArticleAdapter
+    private lateinit var binding: FragmentArticlesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentArticlesBinding = DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_articles, container, false)
 
-        binding.textView.setOnClickListener {
-            findNavController().navigate(ArticlesFragmentDirections.actionArticlesToDetails())
+        val adapterDuration = DaysFilterAdapter(
+            listOf(ONE_DAY, SEVEN_DAYS, THIRTY_DAYS),
+            object : DaysFilterAdapter.OnFilterClickListener {
+                override fun onClicked(value: String) {
+                    adapter.submitList(listOf())
+                    binding.rvDays.adapter?.notifyDataSetChanged()
+                    viewModel.setDuration(value)
+                    binding.viewErrorLoading.root.visibility = GONE
+                }
+            }
+        )
+        binding.rvDays.layoutManager = LinearLayoutManager(binding.rvDays.context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvDays.adapter = adapterDuration
+
+        binding.viewErrorLoading.connectionRetryBtn.setOnClickListener {
+            viewModel.setDuration(adapterDuration.getSelected())
+            binding.viewErrorLoading.root.visibility = GONE
         }
 
         adapter = ArticleAdapter(object : ArticleAdapter.OnItemClickListener {
             override fun onClicked(article: Article) {
-                findNavController().navigate(ArticlesFragmentDirections.actionArticlesToDetails())
+                val action = ArticlesFragmentDirections.actionArticlesToDetails()
+                action.articleUrl = article.url
+                findNavController().navigate(action)
             }
         })
         binding.recyclerView.adapter = adapter
 
         viewModel.articles.observe(viewLifecycleOwner) {
-            it?.let {
-                adapter.submitList(it)
-            }
+            it?.list?.let { list ->
+                adapter.submitList(list)
+            } ?: showError(it?.error)
         }
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
         binding.lifecycleOwner = this
 
-        viewModel.setDuration("7")
+        viewModel.setDuration(ONE_DAY.value)
 
         return binding.root
+    }
+
+    private fun showError(error: String?) {
+        error?.let { binding.viewErrorLoading.errorMessage.text = it }
+        binding.viewErrorLoading.root.visibility = VISIBLE
     }
 
     override fun onDestroy() {
@@ -60,3 +88,4 @@ class ArticlesFragment : Fragment() {
 
 
 }
+
