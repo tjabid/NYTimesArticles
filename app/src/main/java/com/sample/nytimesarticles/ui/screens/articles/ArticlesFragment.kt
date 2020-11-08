@@ -8,21 +8,18 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sample.nytimesarticles.R
 import com.sample.nytimesarticles.databinding.FragmentArticlesBinding
-import com.sample.nytimesarticles.model.*
+import com.sample.nytimesarticles.model.Article
 import com.sample.nytimesarticles.model.Duration.Companion.ONE_DAY
 import com.sample.nytimesarticles.model.Duration.Companion.SEVEN_DAYS
 import com.sample.nytimesarticles.model.Duration.Companion.THIRTY_DAYS
 import com.sample.nytimesarticles.repository.Repository
 import com.sample.nytimesarticles.ui.adapter.ArticleAdapter
 import com.sample.nytimesarticles.ui.adapter.DaysFilterAdapter
-import com.sample.nytimesarticles.ui.screens.detail.DetailViewModel
-import com.sample.nytimesarticles.ui.screens.detail.DetailViewModelFactory
 
 class ArticlesFragment : Fragment() {
 

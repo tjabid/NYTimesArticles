@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.sample.nytimesarticles.model.Article
 import com.sample.nytimesarticles.model.MostPopularArticles
 import com.sample.nytimesarticles.repository.Repository
 
